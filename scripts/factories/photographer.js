@@ -17,14 +17,12 @@ function photographerFactory(data) {
 		const article = document.createElement( "article" )
 
 		article.innerHTML = `
-			<p>
-				<a href="${urlLink}">
-					<figure>
-						<img src="assets/photographers/${portrait}" alt=${name}>
-					</figure>
-					<h2>${name}</h2>
-				</a>
-			</p>
+			<a href="${urlLink}" role="link">
+				<figure>
+					<img src="assets/photographers/${portrait}" alt=${name}>
+				</figure>
+				<h2>${name}</h2>
+			</a>
 			<h3>${city}, ${country}</h3>
 			<p>
 				${tagline}<br>
