@@ -136,6 +136,9 @@ h1 {
   overflow: hidden;
   border-radius: 50%;
 }
+.photographer_section article figure:focus {
+  border: 2px solid red;
+}
 .photographer_section article figure img {
   width: 100%;
 }
