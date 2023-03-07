@@ -16,6 +16,14 @@ a {
   background-color: #FAFAFA;
   height: 300px;
   margin: 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.photograph-header img {
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
 }
 
 .contact_button {

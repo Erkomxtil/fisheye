@@ -1,5 +1,7 @@
 async function getPhotographers() {
-	const reponse = await fetch("http://127.0.0.1:5500/data/photographers.json")
+	const url = new URL(window.location.href)
+	const originUrl = url.origin
+	const reponse = await fetch(`${originUrl}/data/photographers.json`)
 	const photographers = await reponse.json()
 	return photographers
 }
@@ -7,8 +9,8 @@ async function getPhotographers() {
 async function displayData(photographers) {
 	const photographersSection = document.querySelector(".photographer_section")
 
-	photographers.forEach((photographer, tabIndex) => {
-		const photographerModel = photographerFactory(photographer, tabIndex)
+	photographers.forEach((photographer) => {
+		const photographerModel = photographerFactory(photographer)
 		const userCardDOM = photographerModel.getUserCardDOM()
 		photographersSection.appendChild(userCardDOM)
 	})
