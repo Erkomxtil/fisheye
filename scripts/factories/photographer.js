@@ -6,11 +6,19 @@ function photographerFactory(data) {
 	function getUserCardDOM() {
 		const url = new URL(window.location.href)
 		const originUrl = url.origin
+		let urlLink
+
+		if(originUrl === "https://erkomxtil.github.io") {
+			urlLink = `${originUrl}/fisheye/photographer.html?id=${id}`
+		} else {
+			urlLink =  `${originUrl}/photographer.html?id=${id}`
+		}
+		
 		const article = document.createElement( "article" )
 
 		article.innerHTML = `
 			<p>
-				<a href="${originUrl}/photographer.html?id=${id}">
+				<a href="${urlLink}">
 					<figure>
 						<img src="assets/photographers/${portrait}" alt=${name}>
 					</figure>
