@@ -2,7 +2,14 @@
 async function getPhotographers() {
 	const url = new URL(window.location.href)
 	const originUrl = url.origin
-	const reponse = await fetch(`${originUrl}/data/photographers.json`)
+	let reponse
+	
+	if (originUrl === "https://erkomxtil.github.io") {
+		reponse = await fetch(`${originUrl}/fisheye/data/photographers.json`)
+	} else {
+		reponse = await fetch(`${originUrl}/data/photographers.json`)
+	}
+
 	const media = await reponse.json()
 	return media
 }
