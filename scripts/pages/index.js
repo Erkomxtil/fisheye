@@ -2,8 +2,8 @@ async function getPhotographers() {
 	const url = new URL(window.location.href)
 	const originUrl = url.origin
 	let reponse 
-	
-	if (originUrl === "https://erkomxtil.github.io/fisheye/") {
+
+	if (originUrl === "https://erkomxtil.github.io") {
 		reponse = await fetch(`${originUrl}/fisheye/data/photographers.json`)
 	} else {
 		reponse = await fetch(`${originUrl}/data/photographers.json`)
