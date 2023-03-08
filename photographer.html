@@ -14,8 +14,16 @@
       </a>
     </header>
     <main id="main">
-      <div class="photograph-header">
+      <div class="photograph-header" aria-label="Informations sur les photographes">
       </div>
+      <label for="sort-by">Trier par</label>
+      <select name="sort-by" id="sort-by">
+        <option value="popular" selected><span class="line">Popularité</span></option>
+        <option value="date">Date</option>
+        <option value="title">Titre</option>
+      </select>
+      <section class="media-wrapper"></section>
+      <div class="like-price"></div>
     </main>
     <div id="contact_modal">
 			<div class="modal">
@@ -32,6 +40,8 @@
 				</form>
 			</div>
 		</div>
+    <script src="./scripts/factories/photographer.js"></script>
+    <script src="./scripts/factories/media.js"></script>
     <script src="./scripts/pages/photographer.js"></script>
     <script src="./scripts/utils/contactForm.js"></script>
   </body>
