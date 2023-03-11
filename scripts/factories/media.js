@@ -1,3 +1,4 @@
+/* no-unused-vars displayMediaPhotographer */
 async function displayMediaPhotographer(idPhotographer){
 	const mediasDatas = await getPhotographers("media")
 	const photographerInfo = await getPhotographers("photographer")
@@ -6,19 +7,28 @@ async function displayMediaPhotographer(idPhotographer){
 	const mediaWrapper = document.querySelector(".media-wrapper")
 	const mediasInfos = mediasDatas.filter(media => media.photographerId === idPhotographer)
 	const likes = mediasInfos.map(like => like.likes)
-	const totalLikes = likes.reduce(
-		(accumulateur, valeurCourante) => accumulateur + valeurCourante
-	)
-	console.log(totalLikes)
+	let totalLikes = 0 
+	let tabIndexNumber = 3
 
-	mediasInfos.forEach(info => {
+	if (likes.length > 0) {
+		totalLikes = likes.reduce(
+			(accumulateur, valeurCourante) => accumulateur + valeurCourante
+		)
+	}
+	mediasInfos.forEach((info) => {
+		tabIndexNumber++
 		const article = document.createElement("article")
+		article.setAttribute("aria-haspopup", "true")
+		article.setAttribute("tabindex", tabIndexNumber)
+	
 		let imgVideo
 		if(info.image){
-			imgVideo = `<img src="assets/images/${info.image}" alt="${info.title}" />`
+			article.classList.add("image-media")
+			imgVideo = `<img data-navigation="true" src="assets/images/${info.image}" alt="${info.title}" />`
 		} else {
+			article.classList.add("video")
 			imgVideo = `
-			<video controls="" width="350" height="auto">
+			<video data-infoText="${info.title}">
         <source src="assets/images/${info.video}" type="video/mp4">
       </video>
 			`
@@ -31,6 +41,8 @@ async function displayMediaPhotographer(idPhotographer){
 		`
 		mediaWrapper.appendChild(article)
 	})
+	
+	lightBoxOpen(mediaWrapper)
 
 	likePrice(totalLikes,info)
 }
@@ -40,9 +52,11 @@ async function likePrice(likes, info) {
 	const likePrice = document.querySelector(".like-price")
 	const likePriceInfo = document.createElement("div")
 	likePriceInfo.classList.add("like-price-wrapper")
+	const price = info?.price !== undefined ? info.price: ""
 
 	likePriceInfo.innerHTML = `
-		<div className="like">${likes}❤</div><div className="price">${info.price}€/jour</div>
+		<div className="like">${likes}❤</div><div className="price">${price}€/jour</div>
 	`
 	likePrice.appendChild(likePriceInfo)
 }
+

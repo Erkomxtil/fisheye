@@ -11,17 +11,19 @@ async function displayPhotographer(idPhotographer) {
 	const infos = photographerInfo.filter( info => info.id === idPhotographer)
 	const info = infos[0]
 
-	header.innerHTML = ` 
-		<div className="photograph-infos">
-			<h1>${info.name}</h1>
-			<p>
-				${info.city}, ${info.country}<br>
-				${info.tagline}
-			</p>
-		</div>
-		<button class="contact_button" onclick="displayModal()">Contactez-moi</button>
-		<img src="assets/photographers/${info.portrait}" alt="${info.name}">
-	`		
+	if (info !== undefined) {
+		header.innerHTML = ` 
+			<div className="photograph-infos">
+				<h1>${info.name}</h1>
+				<p>
+					${info.city}, ${info.country}<br>
+					${info.tagline}
+				</p>
+			</div>
+			<button tabindex="2" class="contact_button" onclick="displayModal()">Contactez-moi</button>
+			<img src="assets/photographers/${info.portrait}" alt="${info.name}">
+		`			
+	}
 }
 
 
