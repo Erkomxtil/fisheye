@@ -1,28 +1,39 @@
-/*
-block = on selectionne le block sur lequel on souhaite effectué le changement
- value = on met la valeur de l'attribut
-aria = on met l'attribut qui correspond au changement
-*/
+/**
+ * 
+ * @param {*} block on selectionne le block sur lequel on souhaite effectué le changement
+ * @param {*} value on met la valeur de l'attribut
+ * @param {*} aria on met l'attribut qui correspond au changement
+ */
 function blockAccessibility(block, value, aria) {
 	const element = document.getElementById(block)
 	element.setAttribute(aria, value)
 }
 
-// Ouverture du formulaire
+/**
+ * Ouverture du formulaire
+ */
 function displayModal() {
 	const modal = document.getElementById("contact_modal")
 	const prenom = document.getElementById("prenom")
+	const inputDivs = document.querySelectorAll(".formData")
+
+	inputDivs.forEach((e) => {
+		e.dataset.errorVisible = "false"
+	})
 
 	modal.style.display = "block"	
 	blockAccessibility("main", "true", "aria-hidden")
 	blockAccessibility("header","true", "aria-hidden")
 	blockAccessibility("contact_modal", "false", "aria-hidden")
 	blockAccessibility("contact_modal", "false", "aria-hidden")
+
 	tabIndexNavigationOpen()
 	prenom.focus()
 }
 
-// fermeture du formulaire avec clavier, souris et sur validation des données
+/**
+ * fermeture du formulaire avec clavier, souris et sur validation des données
+ */
 function closeModalMultiWay() {
 	if(checkData() === true) {
 		closeModal()
@@ -39,11 +50,16 @@ function closeModalMultiWay() {
 		const keyCode = e.key ? e.key : e.code
 		if (keyCode === "Escape") {
 			closeModal()
+
+			const focusContact = document.getElementById("contact-me")
+			focusContact.focus()
 		}
 	})
 }
 
-// Fermeture du formulaire
+/**
+ * Fermeture du formulaire
+ */
 function closeModal() {
 	const modal = document.getElementById("contact_modal")
 	const formulaire = document.getElementById("form-contact")
@@ -56,7 +72,9 @@ function closeModal() {
 	formulaire.reset()
 }
 
-// On récupère les informations du formulaire quand elles sont validées
+/**
+ * On récupère les informations du formulaire quand elles sont validées
+ */
 function getData() {
 	if(checkData() === true) {
 		const email = document.getElementById("email").value
@@ -75,7 +93,11 @@ function getData() {
 	}
 }
 
-// On vérifie les données nom et prénom 
+/**
+ * 
+ * @param {*} inputValue 
+ * @returns On vérifie les données nom et prénom 
+ */
 function checkFirstAndName(inputValue) {
 	if(inputValue !== undefined){
 		const inputValueRaw = inputValue.value
@@ -89,7 +111,10 @@ function checkFirstAndName(inputValue) {
 	}
 }
 
-// On vérifie si l'email est valide
+/**
+ * 
+ * @returns On vérifie si l'email est valide
+ */
 function checkEmail() {
 	const email = document.getElementById("email")
 	var emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -102,7 +127,10 @@ function checkEmail() {
 	}
 }
 
-// On vérifie si on a un message 
+/**
+ * 
+ * @returns On vérifie si on a un message
+ */ 
 function checkMessage() {
 	const message = document.getElementById("message")
 
@@ -115,7 +143,10 @@ function checkMessage() {
 	}
 }
 
-// On vérifie toutes les données avant la fermeture du formulaire
+/**
+ * 
+ * @returns On vérifie toutes les données avant la fermeture du formulaire
+ */
 function checkData() {
 	const firstName = document.getElementById("prenom")
 	const lastName = document.getElementById("nom")
@@ -136,7 +167,9 @@ function checkData() {
 	}
 }
 
-// Vérifications des datas quand on click sur le bouton
+/**
+ * Vérifications des datas quand on click sur le bouton
+ */
 function submitBtn()  {
 	const btnSubmit = document.getElementById("btn-form")
 	btnSubmit.addEventListener("click", (e) => {
@@ -147,12 +180,24 @@ function submitBtn()  {
 	})
 }
 
-// Changement de la tabulation avec le formualaire ouvert
-function tabIndexNavigationOpen() {
+/**
+ * Changement de la tabulation avec le formualaire ouvert ou le tri des médias fermé
+ * @param {*} typeOfBtn 
+ */
+function tabIndexNavigationOpen(typeOfBtn) {
 	const header = document.querySelector("#header a")
 	const contactBtn = document.querySelector(".contact_button")
 	const sortBtn = document.querySelector("#sort-by")
 	const articles = document.querySelectorAll(".media-wrapper article")
+	const btnPopularity = document.getElementById("popularity-select")
+	const btnDate = document.getElementById("date-select")
+	const btnTitle = document.getElementById("title-select")
+
+	if(typeOfBtn === "tri" ) {
+		btnPopularity.setAttribute("tabindex", 0)
+		btnDate.setAttribute("tabindex", 0)
+		btnTitle.setAttribute("tabindex", 0)
+	}
 
 	header.setAttribute("tabindex", -1)
 	contactBtn.setAttribute("tabindex", -1)
@@ -163,21 +208,31 @@ function tabIndexNavigationOpen() {
 	})
 }
 
-// Changement de la tabulation avec la fermeture du formualaire ouvert
-function tabIndexNavigationClose() {
+/**
+ * Changement de la tabulation avec le formualaire fermé ou le tri des médias fermé
+ * @param {*} typeOfBtn 
+ */
+function tabIndexNavigationClose(typeOfBtn) {
 	const header = document.querySelector("#header a")
 	const contactBtn = document.querySelector(".contact_button")
 	const sortBtn = document.querySelector("#sort-by")
 	const articles = document.querySelectorAll(".media-wrapper article")
-	let index = 3
+	const btnPopularity = document.getElementById("popularity-select")
+	const btnDate = document.getElementById("date-select")
+	const btnTitle = document.getElementById("title-select")
 
-	header.setAttribute("tabindex", 1)
-	contactBtn.setAttribute("tabindex", 2)
-	sortBtn.setAttribute("tabindex", 3)
+	if(typeOfBtn === "tri") {
+		btnPopularity.setAttribute("tabindex", -1)
+		btnDate.setAttribute("tabindex", -1)
+		btnTitle.setAttribute("tabindex", -1)
+	}
+
+	header.setAttribute("tabindex", 0)
+	contactBtn.setAttribute("tabindex", 0)
+	sortBtn.setAttribute("tabindex", 0)
 
 	articles.forEach( article => {
-		index++
-		article.setAttribute("tabindex", index)
+		article.setAttribute("tabindex", 0)
 	})
 }
 

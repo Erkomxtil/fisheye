@@ -37,26 +37,60 @@ a {
   border-radius: 5px;
   cursor: pointer;
 }
+.contact_button:hover {
+  background-color: #DB8876;
+  color: #000000;
+}
 
 label[for=sort-by] {
   font-weight: bold;
+  margin-right: 20px;
 }
 
 #sort-by {
-  background-color: #901C1C;
+  min-width: 150px;
+}
+
+.sort-by-wrapper {
+  display: flex;
   border: none;
   color: #ffffff;
-  font-size: 1.125em;
-  padding: 10px 20px;
+  font-size: 1.125rem;
   border-radius: 5px;
   margin-top: 10px;
   position: relative;
 }
-#sort-by::after {
+.sort-by-wrapper #sort-by {
+  background-color: #901C1C;
+  border: none;
+  color: #ffffff;
+  text-align: left;
+  font-size: 1.125rem;
+  padding: 20px 20px 20px 0;
+}
+.sort-by-wrapper img {
   position: absolute;
-  content: "test";
-  top: 0;
+  top: 34px;
+  right: 20px;
+}
+.sort-by-wrapper .dropdown-options {
+  list-style: none;
+  display: none;
+  position: absolute;
+  background-color: #911C1C;
+  padding: 0 20px;
   left: 0;
+  top: 0;
+  border-radius: 5px;
+  z-index: 200;
+}
+.sort-by-wrapper .dropdown-options li {
+  padding: 20px 20px 20px 0;
+  border-top: 1px solid #ffffff;
+  min-width: 150px;
+}
+.sort-by-wrapper .dropdown-options li:first-child {
+  border-top: none;
 }
 
 .line {
@@ -262,7 +296,7 @@ form textarea {
 
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.4em;
+  font-size: 0.9em;
   color: #e54858;
   display: block;
   margin-top: 7px;
@@ -271,6 +305,9 @@ form textarea {
   line-height: 0.3;
   opacity: 0;
   transition: 0.3s;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .formData[data-error-visible=true]::after {
@@ -290,6 +327,7 @@ form textarea {
   font-size: 1.5em;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  z-index: 200;
 }
 .like-price-wrapper {
   display: flex;

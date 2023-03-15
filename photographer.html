@@ -10,7 +10,7 @@
   </head>
   <body>
     <header id="header" role="banner">
-      <a href="index.html" tabindex="1">
+      <a href="index.html" tabindex="0">
         <img src="assets/images/logo.png" class="logo" alt="Logo Fisheye">
       </a>
     </header>
@@ -19,12 +19,16 @@
       <div class="photograph-header" aria-label="Informations sur les photographes">
       </div>
       <!-- Select pour le tri des médias -->
-      <label for="sort-by">Trier par</label>
-      <select name="sort-by" id="sort-by" tabindex="3">
-        <option value="popular" selected><span class="line">Popularité</span></option>
-        <option value="date">Date</option>
-        <option value="title">Titre</option>
-      </select>
+      <div class="sort-by-wrapper" aria-label="Sort by">
+        <label for="sort-by">Trier par</label>
+        <button tabindex="0" data-value="popularity" aria-haspopup="optionBox" id="sort-by">Popularité</button>
+        <img src="assets/icons/arrow.svg" alt="Flèche pour le select">
+        <ul class="dropdown-options" role="listbox" aria-labelledby="sort-by">
+          <li id="popularity-select" role="option" data-value="popularity" aria-selected="true">Popularité</li>
+          <li id="date-select" role="option" data-value="date" aria-selected="false">Date</li>
+          <li id="title-select" role="option" data-value="title" aria-selected="false">Titre</li>
+        </ul>
+      </div>
       <!-- Affichage des médias -->
       <section class="media-wrapper"></section>
       <!-- Affichage des like et du taux journalier -->
@@ -36,10 +40,10 @@
         <video controls id="lightbox-video" src=""></video>
       <p id="lightbox-text">Hillside Color</p>
       <nav>
-        <img tabindex="1" role="link" class="arrow-back" src="assets/icons/lightboxArrow.svg" alt="Fléche précédente" role="link">
-        <img tabindex="2 " role="link"  class="arrow-next" src="assets/icons/lightboxArrow.svg" alt="Fléche suivante" role="link">
+        <img tabindex="-1" role="link" class="arrow-back" src="assets/icons/lightboxArrow.svg" alt="Fléche précédente" role="link">
+        <img tabindex="-1" role="link"  class="arrow-next" src="assets/icons/lightboxArrow.svg" alt="Fléche suivante" role="link">
       </nav>
-      <img tabindex="0" role="button" class="close-lightbox" src="assets/icons/lightboxClose.svg" alt="Bouton de fermeture" >
+      <img tabindex="-1" role="button" class="close-lightbox" src="assets/icons/lightboxClose.svg" alt="Bouton de fermeture" >
 
     </div>
     <!-- Formulaire de contact -->
@@ -47,7 +51,7 @@
 			<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
 				<header>
           <h2 id="modalTitle">Contactez-moi</h2>
-          <img id="close-btn" tabindex="3" src="assets/icons/close.svg" onclick="closeModal()" alt="Bouton pour la fermeture de la modal">
+          <img id="close-btn" tabindex="-1" src="assets/icons/close.svg" onclick="closeModal()" alt="Bouton pour la fermeture de la modal">
         </header>
 				<form id="form-contact">
 					<div>

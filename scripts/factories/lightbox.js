@@ -1,4 +1,7 @@
-// Ouverture de la lightbox
+/**
+ * Ouverture de la lightbox
+ * @param {*} datas 
+ */
 function lightBoxOpen(datas) {
 	const articles = datas.querySelectorAll("article")
 	
@@ -9,7 +12,9 @@ function lightBoxOpen(datas) {
 	})
 }
 
-// Pour fermer la lightbox
+/**
+ * Pour fermer la lightbox
+ */
 function closeLightBox() {
 	const lightBox = document.getElementById("lightbox")
 	const img = document.getElementById("lightbox-image")
@@ -21,7 +26,9 @@ function closeLightBox() {
 	
 }
 
-// fermeture de la lightbox avec la croix
+/**
+ * fermeture de la lightbox avec la croix
+ */
 function closeBtnLightBox() {
 	const closeBtn = document.querySelector(".close-lightbox")
 	closeBtn.addEventListener("click", () => {
@@ -30,7 +37,10 @@ function closeBtnLightBox() {
 	})
 }
 
-// fermeture de la lightbox avec la touche escape
+/**
+ * fermeture de la lightbox avec la touche escape
+ * 
+ */
 function escapeCloseLightBox() {
 	document.addEventListener("keydown", e => {
 		const keyCode = e.key ? e.key : e.code
@@ -41,13 +51,18 @@ function escapeCloseLightBox() {
 	})
 }
 
-// Visibility = mettre le display du block
+/**
+ * 
+ * @param {*} visibility mettre le display du block pour l'afficher ou le cacher
+ */
 function mainNonVisible(visibility) {
 	const main = document.querySelector("main")	
 	main.style.display = visibility
 }
 
-// Navigation au clavier sur la page photographe quand une image est sélectionnée
+/**
+ * Navigation au clavier sur la page photographe quand une image est sélectionnée
+ */
 function keyboardNavigation() {
 	document.addEventListener("keydown", (e) => {
 		const keyCode = e.key ? e.key: e.code
@@ -59,7 +74,10 @@ function keyboardNavigation() {
 	})
 }
 
-// Récupération des datas de la page photographe
+/**
+ * Récupération des datas de la page photographe
+ * @param {*} e 
+ */
 function getDataFromPhotographerPage(e) {
 	const lightBoxImg = document.getElementById("lightbox-image")
 	const lightBox = document.getElementById("lightbox")
@@ -91,7 +109,9 @@ function getDataFromPhotographerPage(e) {
 	}
 }
 
-// Initiation des functions
+/**
+ * Initiation des functions
+ */
 function init(){
 	keyboardNavigation()
 	escapeCloseLightBox()

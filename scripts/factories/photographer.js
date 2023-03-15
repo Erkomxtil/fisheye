@@ -1,5 +1,10 @@
-function photographerFactory(data) {
-	const { name, id, city, country, tagline, price, portrait } = data
+/**
+ * Affichage des photographes sur l'index.html
+ * @param {*} photographer 
+ * @returns 
+ */
+function photographerFactory(photographer) {
+	const { name, id, city, country, tagline, price, portrait } = photographer
 	
 	const picture = `assets/photographers/${portrait}`
 	
@@ -19,7 +24,7 @@ function photographerFactory(data) {
 		article.innerHTML = `
 			<a href="${urlLink}" role="link">
 				<figure>
-					<img src="assets/photographers/${portrait}" alt=${name}>
+					<img src="assets/photographers/${portrait}" alt=${name} loading="lazy">
 				</figure>
 				<h2>${name}</h2>
 			</a>
@@ -34,6 +39,11 @@ function photographerFactory(data) {
 	return { name, picture, getUserCardDOM }
 }
 
+/**
+ * On récupère les données des photographes ou des médias
+ * @param {*} type On choisit le type de données que l'on veut récupérer "media" ou "photographer"
+ * @returns 
+ */
 async function getPhotographers(type) {
 	const url = new URL(window.location.href)
 	const originUrl = url.origin
