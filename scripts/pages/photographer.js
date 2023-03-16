@@ -14,13 +14,13 @@ function getIdParameter() {
  */
 async function displayPhotographer(idPhotographer) {
 	const photographerInfo = await getPhotographers("photographer")
-	const header = document.querySelector(".photograph-header")
+	const header = document.querySelector(".photographer-header")
 	const infos = photographerInfo.filter( info => info.id === idPhotographer)
 	const info = infos[0]
 
 	if (info !== undefined) {
 		header.innerHTML = ` 
-			<div className="photograph-infos">
+			<div class="photographer-infos">
 				<h1>${info.name}</h1>
 				<p>
 					${info.city}, ${info.country}<br>

@@ -65,6 +65,7 @@ function displayMedia(datas, tabIndexNumber, mediaWrapper) {
 		let imgVideo
 		article.setAttribute("aria-haspopup", "true")
 		article.setAttribute("tabindex", tabIndexNumber)
+		article.dataset.mediaId = info.id
 	
 
 		if(info.image){

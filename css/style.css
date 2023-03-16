@@ -12,14 +12,14 @@ a {
   display: none;
 }
 
-.photograph-header {
+.photographer-header {
   background-color: #FAFAFA;
   height: 300px;
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-.photograph-header img {
+.photographer-header img {
   border-radius: 50%;
   height: 200px;
   width: 200px;
@@ -51,7 +51,7 @@ label[for=sort-by] {
   min-width: 150px;
 }
 
-.sort-by-wrapper {
+.photographer.sort-by-wrapper {
   display: flex;
   border: none;
   color: #ffffff;
@@ -60,37 +60,62 @@ label[for=sort-by] {
   margin-top: 10px;
   position: relative;
 }
-.sort-by-wrapper #sort-by {
+.photographer.sort-by-wrapper label[for=sort-by] {
+  color: #000000;
+  min-height: 63.03px;
+}
+.photographer.sort-by-wrapper #sort-by {
   background-color: #901C1C;
   border: none;
   color: #ffffff;
   text-align: left;
   font-size: 1.125rem;
-  padding: 20px 20px 20px 0;
+  padding: 20px 40px 20px 20px;
+  border-radius: 5px;
+  min-width: 190px;
+  position: relative;
+  font-family: "DM Sans";
+  cursor: pointer;
 }
-.sort-by-wrapper img {
+.photographer.sort-by-wrapper #sort-by::after {
+  content: url("/assets/icons/arrow.svg");
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translatey(-50%);
+}
+.photographer.sort-by-wrapper img {
   position: absolute;
   top: 34px;
   right: 20px;
 }
-.sort-by-wrapper .dropdown-options {
+.photographer.sort-by-wrapper .dropdown-options {
   list-style: none;
   display: none;
   position: absolute;
   background-color: #911C1C;
   padding: 0 20px;
-  left: 0;
+  left: 89px;
   top: 0;
   border-radius: 5px;
   z-index: 200;
+  min-width: 190px;
+  cursor: pointer;
 }
-.sort-by-wrapper .dropdown-options li {
+.photographer.sort-by-wrapper .dropdown-options li {
   padding: 20px 20px 20px 0;
   border-top: 1px solid #ffffff;
   min-width: 150px;
 }
-.sort-by-wrapper .dropdown-options li:first-child {
+.photographer.sort-by-wrapper .dropdown-options li:first-child {
   border-top: none;
+}
+.photographer.sort-by-wrapper .dropdown-options #popularity-select::after {
+  content: url("/assets/icons/arrow.svg");
+  position: absolute;
+  top: 18%;
+  right: 20px;
+  transform: translatey(-50%) rotate(180deg);
 }
 
 .line {

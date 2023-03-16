@@ -2,14 +2,14 @@
   display: none;
 }
 
-.photograph-header {
+.photographer-header {
   background-color: #FAFAFA;
   height: 300px;
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
-.photograph-header img {
+.photographer-header img {
   border-radius: 50%;
   height: 200px;
   width: 200px;

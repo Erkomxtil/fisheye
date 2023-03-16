@@ -27,18 +27,19 @@ function closeLightBox() {
 }
 
 /**
- * fermeture de la lightbox avec la croix
+ * fermeture de la lightbox avec la croix au click
  */
 function closeBtnLightBox() {
 	const closeBtn = document.querySelector(".close-lightbox")
-	closeBtn.addEventListener("click", () => {
+	closeBtn.addEventListener("click", (e) => {
 		closeLightBox()
 		mainNonVisible("block")
+		tabindexLightBox("closed")
 	})
 }
 
 /**
- * fermeture de la lightbox avec la touche escape
+ * fermeture de la lightbox avec la touche echappe
  * 
  */
 function escapeCloseLightBox() {
@@ -47,6 +48,8 @@ function escapeCloseLightBox() {
 		if (keyCode === "Escape") {
 			closeLightBox()
 			mainNonVisible("block")
+			tabindexLightBox("closed")
+			setTimeout(() => LightboxClosedFocus(e), 1000)
 		}
 	})
 }
@@ -75,11 +78,12 @@ function keyboardNavigation() {
 }
 
 /**
- * Récupération des datas de la page photographe
+ * Récupération des datas de la page photographe et ouverture de la lightbox
  * @param {*} e 
  */
 function getDataFromPhotographerPage(e) {
 	const lightBoxImg = document.getElementById("lightbox-image")
+	const video = document.getElementById("lightbox-video")
 	const lightBox = document.getElementById("lightbox")
 	const activeArticle = document.activeElement
 	const textImgP = document.getElementById("lightbox-text")
@@ -89,24 +93,74 @@ function getDataFromPhotographerPage(e) {
 	if (activeArticle.classList.contains("video")){
 		const videoSrc = activeArticle
 		const videoText = videoSrc.getAttribute("data-infotext")
+		const videoId = videoSrc.dataset.mediaId
 		const source = videoSrc.querySelector("source")
 		const sourceSrc = source.getAttribute("src")			
-		const video = document.getElementById("lightbox-video")
 
 		lightBoxImg.style.display = "none"
 		video.style.display = "block"
 		video.setAttribute("src", sourceSrc)
+		video.dataset.mediaId = videoId
 		lightBox.style.display = "flex"
 		textImgP.textContent = videoText
+		video.dataset.visible="true"
 	} else {
+		video.dataset.visible="false"
 		const img = activeArticle.querySelector("img")
+		const imgId = img?.parentElement.dataset.mediaId
 		const srcImg = img?.getAttribute("src")
 		const textImg = img?.getAttribute("alt")
 
 		lightBox.style.display = "flex"
 		lightBoxImg.setAttribute("src", srcImg)
+		lightBoxImg.dataset.mediaId = imgId
 		textImgP.textContent = textImg				
 	}
+
+	tabindexLightBox("open")
+}
+
+/**
+ * Gestion du tabindex lors de l'ouverture de la lightbox
+ * @param {*} event mettre si la lightbox est ouverte "open" ou fermé "closed"
+ */
+function tabindexLightBox(event){
+	
+	const btnClose = document.querySelector(".close-lightbox")
+	const btnArrowBack = document.querySelector(".arrow-back")
+	const btnArrowNext = document.querySelector(".arrow-next")
+	let numberTabindex
+
+	if (event === "open") {
+		numberTabindex = 0
+	}
+	if (event === "closed") {
+		numberTabindex = -1
+	}
+
+	btnClose.setAttribute("tabindex", numberTabindex)
+	btnArrowBack.setAttribute("tabindex", numberTabindex)
+	btnArrowNext.setAttribute("tabindex", numberTabindex)
+}
+
+/**
+ * Gestion du focus après la fermeture de la lightbox avec echappe
+ */
+function LightboxClosedFocus() {
+	const imgLightbox = document.getElementById("lightbox-image")
+	const videoLightbox = document.getElementById("lightbox-video")
+	const img = imgLightbox.dataset.mediaId
+	const video = videoLightbox.dataset.mediaId
+	console.log(video + " video", img + " img", videoLightbox.style.display)
+	let data
+	if (img !== undefined && videoLightbox.dataset.visible === "false") {
+		data = img
+	} 
+	if (video !== undefined && videoLightbox.dataset.visible === "true"){
+		data = video
+	}
+
+	document.querySelector(`article[data-media-id="${data}"]`).focus()
 }
 
 /**
