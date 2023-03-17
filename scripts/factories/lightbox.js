@@ -4,13 +4,36 @@
  */
 function lightBoxOpen(datas) {
 	const articles = datas.querySelectorAll("article")
-	
+
 	articles.forEach(element => {
 		element.addEventListener("click", (e) => {
 			getDataFromPhotographerPage(e)
 		})
 	})
 }
+
+/**
+ * 
+ * @returns On regarde si le select à changer l'ordre des vignettes
+ */
+function sortByHasChanged() {
+	const targetNode = document.querySelector(".media-wrapper")
+	const config = { attributes: true, childList: true }
+
+	var callback = function(mutationsList) {
+		for(var mutation of mutationsList) {
+			if (mutation.type == "childList") {
+				const mediaWrapper = document.querySelector(".media-wrapper")
+
+				lightBoxOpen(mediaWrapper)
+			}
+		}
+	}
+
+	var observer = new MutationObserver(callback)
+	observer.observe(targetNode, config)
+}
+
 
 /**
  * Pour fermer la lightbox
@@ -49,7 +72,7 @@ function escapeCloseLightBox() {
 			closeLightBox()
 			mainNonVisible("block")
 			tabindexLightBox("closed")
-			setTimeout(() => LightboxClosedFocus(e), 1000)
+			setTimeout(() => LightboxClosedFocus(e), 700)
 		}
 	})
 }
@@ -69,12 +92,78 @@ function mainNonVisible(visibility) {
 function keyboardNavigation() {
 	document.addEventListener("keydown", (e) => {
 		const keyCode = e.key ? e.key: e.code
-		const focusElement = document.activeElement.tagName
-		
-		if (keyCode === "Enter" && focusElement === "ARTICLE") {
+		const focusElement = document.activeElement
+		console.log(focusElement)
+
+		if (keyCode === "Enter" && focusElement.tagName === "ARTICLE") {
 			getDataFromPhotographerPage(e)
 		} 
+
+		// action pour la fléche retour	
+		if (keyCode === "Enter" && document.activeElement.classList.contains("arrow-back")) {
+
+			let mediaIdOnScreen = focusElement.parentNode.parentNode.dataset.mediaId
+			console.log(keyCode)
+			displayMediaLightbox(getPreviousMediasForNavigation(mediaIdOnScreen, "previous"))
+		}
+
+		if (keyCode === "Arrowleft") {
+			console.log("arrow left")
+		}
+
+		// action pour la fléche suivant
+		if (keyCode === "Enter" && document.activeElement.classList.contains("arrow-next")) {
+			let mediaIdOnScreen = focusElement.parentNode.parentNode.dataset.mediaId
+			displayMediaLightbox(getPreviousMediasForNavigation(mediaIdOnScreen, "next"))
+		}
+
+		if (keyCode === "Enter" && document.activeElement.classList.contains("close-lightbox")) {
+			// action pour la croix
+			closeLightBox()
+			mainNonVisible("block")
+			tabindexLightBox("closed")
+			setTimeout(() => LightboxClosedFocus(e), 700)
+		}
 	})
+}
+
+function getPreviousMediasForNavigation(mediaId, arrowDirection) {
+	const lightboxMediaId = document.getElementById("lightbox").dataset.mediaId
+	const getArticleData = document.querySelector(`article[data-media-id="${mediaId}"]`)
+	let scrMediaImg, scrMediaVideo, getPreviousMedia, getNextMedia, datas = {}, id
+
+	if (arrowDirection === "previous") {
+		getPreviousMedia = getArticleData.previousSibling
+		scrMediaImg = getPreviousMedia?.querySelector("img")
+		scrMediaVideo = getPreviousMedia?.querySelector("video source")
+		id = getPreviousMedia.dataset.mediaId
+		console.log(getPreviousMedia?.dataset.mediaId + " on Screen //", lightboxMediaId + " next media")
+	}
+
+	if (arrowDirection === "next") {
+		getNextMedia = getArticleData.nextSibling
+		scrMediaImg = getNextMedia?.querySelector("img")
+		scrMediaVideo = getNextMedia?.querySelector("video source")
+		id = getNextMedia.dataset.mediaId
+		console.log(getNextMedia?.dataset.mediaId + " on Screen //", lightboxMediaId + " next media")
+	}
+	
+	if(scrMediaImg) {
+		datas = {
+			srcImg: scrMediaImg.getAttribute("src"),
+			textImg: scrMediaImg.getAttribute("alt"),
+			activeArticleId: id,
+			media: "image"
+		}
+	}
+	if(scrMediaVideo) {
+		datas = {
+			srcVideo: scrMediaVideo.getAttribute("src"),
+			activeArticleId: mediaId,
+			media: "video"
+		}
+	}
+	return datas
 }
 
 /**
@@ -82,42 +171,80 @@ function keyboardNavigation() {
  * @param {*} e 
  */
 function getDataFromPhotographerPage(e) {
-	const lightBoxImg = document.getElementById("lightbox-image")
-	const video = document.getElementById("lightbox-video")
+	mainNonVisible("none")
+	displayMediaLightbox(lightboxDatas())
+	tabindexLightBox("open")
+}
+
+/**
+ * Affichage des images dans la lightbox
+ * @param {*} lightboxDatas On récupère les données de la page photographe
+ */
+function displayMediaLightbox(lightboxDatas) {
 	const lightBox = document.getElementById("lightbox")
-	const activeArticle = document.activeElement
+	const lightBoxImg = document.getElementById("lightbox-image") 
+	const video = document.getElementById("lightbox-video")	
 	const textImgP = document.getElementById("lightbox-text")
 
-	mainNonVisible("none")
+	console.log(lightboxDatas)
+	if(lightboxDatas.media === "image") {
+		lightBox.dataset.mediaId = lightboxDatas.activeArticleId
+		lightBoxImg.setAttribute("src", lightboxDatas.srcImg)
+		lightBox.style.display = "flex"
+		lightBoxImg.setAttribute("alt", lightboxDatas.textImg)
+		textImgP.textContent = lightboxDatas.textImg
+		lightBoxImg.style.display = "block"
+		video.style.display = "none"
+		video.dataset.visible = "false"
+	}	
 
-	if (activeArticle.classList.contains("video")){
-		const videoSrc = activeArticle
-		const videoText = videoSrc.getAttribute("data-infotext")
-		const videoId = videoSrc.dataset.mediaId
-		const source = videoSrc.querySelector("source")
-		const sourceSrc = source.getAttribute("src")			
-
+	if(lightboxDatas.media === "video") {
+		lightBox.dataset.mediaId = lightboxDatas.activeArticleId
+		lightBox.style.display = "flex"
+		textImgP.textContent = lightboxDatas.text
 		lightBoxImg.style.display = "none"
 		video.style.display = "block"
-		video.setAttribute("src", sourceSrc)
-		video.dataset.mediaId = videoId
-		lightBox.style.display = "flex"
-		textImgP.textContent = videoText
-		video.dataset.visible="true"
-	} else {
-		video.dataset.visible="false"
-		const img = activeArticle.querySelector("img")
-		const imgId = img?.parentElement.dataset.mediaId
-		const srcImg = img?.getAttribute("src")
-		const textImg = img?.getAttribute("alt")
+		video.setAttribute("src", lightboxDatas.srcVideo)
+		video.dataset.visible = "true"
+	}
+}
 
-		lightBox.style.display = "flex"
-		lightBoxImg.setAttribute("src", srcImg)
-		lightBoxImg.dataset.mediaId = imgId
-		textImgP.textContent = textImg				
+
+
+/**
+ * Données pour afficher la lightbox
+ */
+const lightboxDatas = function () {
+	const activeArticle = document.activeElement
+	const activeArticleId = activeArticle.dataset.mediaId
+	const videoSrc = activeArticle
+	const videoArticle = activeArticle.classList.contains("video")
+	const videoText = videoSrc.getAttribute("data-infotext")
+	let srcVideo = "", srcImg = "", textImg = "", media = ""
+
+	if(videoArticle) {
+		const source = videoSrc.querySelector("video source")
+		srcVideo = source.getAttribute("src")
+		// console.log(videoArticle)
+		media = "video"
+	}
+	if(!videoArticle) {
+		const img = activeArticle.querySelector("img")
+		srcImg = img.getAttribute("src")
+		textImg = img.getAttribute("alt")
+		media = "image"
 	}
 
-	tabindexLightBox("open")
+	let	lightboxDatas = {
+		activeArticleId,
+		srcVideo,
+		srcImg,
+		videoText,
+		textImg,
+		media
+	}
+
+	return lightboxDatas
 }
 
 /**
@@ -147,20 +274,10 @@ function tabindexLightBox(event){
  * Gestion du focus après la fermeture de la lightbox avec echappe
  */
 function LightboxClosedFocus() {
-	const imgLightbox = document.getElementById("lightbox-image")
-	const videoLightbox = document.getElementById("lightbox-video")
-	const img = imgLightbox.dataset.mediaId
-	const video = videoLightbox.dataset.mediaId
-	console.log(video + " video", img + " img", videoLightbox.style.display)
-	let data
-	if (img !== undefined && videoLightbox.dataset.visible === "false") {
-		data = img
-	} 
-	if (video !== undefined && videoLightbox.dataset.visible === "true"){
-		data = video
-	}
+	const mediaId = document.getElementById("lightbox").dataset.mediaId
+	console.log(mediaId)
 
-	document.querySelector(`article[data-media-id="${data}"]`).focus()
+	document.querySelector(`article[data-media-id="${mediaId}"]`).focus()
 }
 
 /**
@@ -170,6 +287,7 @@ function init(){
 	keyboardNavigation()
 	escapeCloseLightBox()
 	closeBtnLightBox()
+	sortByHasChanged()
 }
 
 init()

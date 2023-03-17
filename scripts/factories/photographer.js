@@ -1,6 +1,6 @@
 /**
- * Affichage des photographes sur l'index.html
- * @param {*} photographer 
+ * 
+ * @param {*} photographer Affichage des photographes sur l'index.html
  * @returns 
  */
 function photographerFactory(photographer) {

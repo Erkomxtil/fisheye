@@ -4,14 +4,16 @@
  */
 async function displayMediaPhotographer(idPhotographer){
 	const mediasDatas = await getPhotographers("media")
+	const mediasInfos = mediasDatas.filter(media => media.photographerId === idPhotographer)
+
 	const photographerInfo = await getPhotographers("photographer")
 	const infos = photographerInfo.filter( info => info.id === idPhotographer)
+	
 	const info = infos[0]
+
 	const mediaWrapper = document.querySelector(".media-wrapper")
-	const mediasInfos = mediasDatas.filter(media => media.photographerId === idPhotographer)
 	const likes = mediasInfos.map(like => like.likes)
 	let totalLikes = 0 
-	let tabIndexNumber = 3
 
 	if (likes.length > 0) {
 		totalLikes = likes.reduce(
@@ -19,17 +21,17 @@ async function displayMediaPhotographer(idPhotographer){
 		)
 	}
 	
-	// Affichage des vignettes au départ 
+	/* Affichage des vignettes au départ */
 	let datas = sortMediaInfo(mediasInfos, "popularity")
-	displayMedia(datas,tabIndexNumber, mediaWrapper)
+	displayMedia(datas, mediaWrapper)
 
-	// Affichage des média avec le select
-	getDataType(tabIndexNumber,mediaWrapper, mediasInfos)
+	/* Affichage des média avec le select */
+	getDataType(mediaWrapper, mediasInfos)
 
-	// Affichage des média avec le select au clavier
-	keyboardNavigationChoiceOfSortBy(mediaWrapper, mediasInfos, tabIndexNumber)
+	/* Affichage des média avec le select au clavier */
+	keyboardNavigationChoiceOfSortBy(mediaWrapper, mediasInfos)
 
-	//  Affichage de la lightbox
+	/*  Affichage de la lightbox */
 	lightBoxOpen(mediaWrapper)
 
 	likePrice(totalLikes,info)
@@ -58,13 +60,12 @@ async function likePrice(likes, info) {
  * @param {*} tabIndexNumber changement du tabindex
  * @param {*} mediaWrapper injection du code dans le dom
  */
-function displayMedia(datas, tabIndexNumber, mediaWrapper) {
+function displayMedia(datas, mediaWrapper) {
 	datas.forEach((info) => {
-		tabIndexNumber = 0
 		const article = document.createElement("article")
 		let imgVideo
 		article.setAttribute("aria-haspopup", "true")
-		article.setAttribute("tabindex", tabIndexNumber)
+		article.setAttribute("tabindex", 0)
 		article.dataset.mediaId = info.id
 	
 
@@ -204,11 +205,10 @@ function selectClosedOnClick() {
 
 /**
  * selection du type de tri et affichage des médias
- * @param {*} tabIndexNumber changement du tabindex
  * @param {*} mediaWrapper injection du code dans le dom
  * @param {*} mediasInfos information concernant les médias
  */
-function getDataType(tabIndexNumber,mediaWrapper, mediasInfos) {
+function getDataType(mediaWrapper, mediasInfos) {
 	const btnSelects = document.querySelectorAll(".dropdown-options li")
 	const btnSortBy = document.getElementById("sort-by")
 
@@ -218,7 +218,10 @@ function getDataType(tabIndexNumber,mediaWrapper, mediasInfos) {
 			const dataType = btnSortBy.dataset.value
 			let datas = sortMediaInfo(mediasInfos, dataType)
 
-			displayMedia(datas,tabIndexNumber, mediaWrapper)
+			displayMedia(datas, mediaWrapper)
+			function getDatasFromPhotographer(datas) {
+				return datas
+			}
 		})
 	})
 }
@@ -229,7 +232,7 @@ function getDataType(tabIndexNumber,mediaWrapper, mediasInfos) {
  * @param {*} mediasInfos On récupère les bon médias
  * @param {*} tabIndexNumber pour la tabulation au clavier
  */
-function keyboardNavigationChoiceOfSortBy(mediaWrapper, mediasInfos, tabIndexNumber) {
+function keyboardNavigationChoiceOfSortBy(mediaWrapper, mediasInfos) {
 	document.addEventListener("keydown", (e) => {
 		const keyCode = e.key ? e.key: e.code
 		const focusElement = document.activeElement
@@ -238,8 +241,9 @@ function keyboardNavigationChoiceOfSortBy(mediaWrapper, mediasInfos, tabIndexNum
 			mediaWrapper.innerHTML = ""
 			const dataType = focusElement.dataset.value
 			let datas = sortMediaInfo(mediasInfos, dataType)
-	
-			displayMedia(datas, tabIndexNumber, mediaWrapper)
+			
+			displayMedia(datas, mediaWrapper)
+
 		}
 	})
 }
