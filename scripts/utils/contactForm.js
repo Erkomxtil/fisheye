@@ -52,7 +52,7 @@ function closeModalMultiWay() {
 			closeModal()
 
 			const focusContact = document.getElementById("contact-me")
-			focusContact.focus()
+			setTimeout( () => focusContact.focus(), 500)
 		}
 	})
 }

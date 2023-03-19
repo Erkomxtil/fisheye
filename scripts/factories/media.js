@@ -28,6 +28,7 @@ async function displayMediaPhotographer(idPhotographer){
 	/* Affichage des média avec le select */
 	getDataType(mediaWrapper, mediasInfos)
 
+
 	/* Affichage des média avec le select au clavier */
 	keyboardNavigationChoiceOfSortBy(mediaWrapper, mediasInfos)
 
@@ -71,11 +72,11 @@ function displayMedia(datas, mediaWrapper) {
 
 		if(info.image){
 			article.classList.add("image-media")
-			imgVideo = `<img data-navigation="true" src="assets/images/${info.image}" alt="${info.title}" />`
+			imgVideo = `<img data-navigation="true" src="assets/images/${info.image}" alt="${info.title}" aria-label="${info.title}">`
 		} else {
 			article.classList.add("video")
 			imgVideo = `
-			<video data-infoText="${info.title}">
+			<video data-infoText="${info.title}" aria-label="${info.title}">
         <source src="assets/images/${info.video}" type="video/mp4">
       </video>
 			`
@@ -83,7 +84,7 @@ function displayMedia(datas, mediaWrapper) {
 		article.innerHTML = `
 			${imgVideo}
       <div class="info-media">
-			  <h2>${info.title}</h2><span>${info.likes} ❤</span>
+			  <h2 lang="en">${info.title}</h2><span>${info.likes} ❤</span>
       </div>
 		`
 		mediaWrapper.appendChild(article)

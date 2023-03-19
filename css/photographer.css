@@ -73,6 +73,7 @@ label[for=sort-by] {
   top: 50%;
   right: 20px;
   transform: translatey(-50%);
+  cursor: pointer;
 }
 .sort-by-wrapper img {
   position: absolute;
@@ -216,6 +217,7 @@ article.video::before {
 #lightbox nav img.close-lightbox {
   height: unset;
   width: unset;
+  cursor: pointer;
 }
 #lightbox nav img:first-child {
   transform: rotate(180deg);

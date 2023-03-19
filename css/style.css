@@ -51,7 +51,7 @@ label[for=sort-by] {
   min-width: 150px;
 }
 
-.photographer.sort-by-wrapper {
+.sort-by-wrapper {
   display: flex;
   border: none;
   color: #ffffff;
@@ -60,11 +60,11 @@ label[for=sort-by] {
   margin-top: 10px;
   position: relative;
 }
-.photographer.sort-by-wrapper label[for=sort-by] {
+.sort-by-wrapper label[for=sort-by] {
   color: #000000;
   min-height: 63.03px;
 }
-.photographer.sort-by-wrapper #sort-by {
+.sort-by-wrapper #sort-by {
   background-color: #901C1C;
   border: none;
   color: #ffffff;
@@ -77,19 +77,20 @@ label[for=sort-by] {
   font-family: "DM Sans";
   cursor: pointer;
 }
-.photographer.sort-by-wrapper #sort-by::after {
+.sort-by-wrapper #sort-by::after {
   content: url("/assets/icons/arrow.svg");
   position: absolute;
   top: 50%;
   right: 20px;
   transform: translatey(-50%);
+  cursor: pointer;
 }
-.photographer.sort-by-wrapper img {
+.sort-by-wrapper img {
   position: absolute;
   top: 34px;
   right: 20px;
 }
-.photographer.sort-by-wrapper .dropdown-options {
+.sort-by-wrapper .dropdown-options {
   list-style: none;
   display: none;
   position: absolute;
@@ -102,15 +103,15 @@ label[for=sort-by] {
   min-width: 190px;
   cursor: pointer;
 }
-.photographer.sort-by-wrapper .dropdown-options li {
+.sort-by-wrapper .dropdown-options li {
   padding: 20px 20px 20px 0;
   border-top: 1px solid #ffffff;
   min-width: 150px;
 }
-.photographer.sort-by-wrapper .dropdown-options li:first-child {
+.sort-by-wrapper .dropdown-options li:first-child {
   border-top: none;
 }
-.photographer.sort-by-wrapper .dropdown-options #popularity-select::after {
+.sort-by-wrapper .dropdown-options #popularity-select::after {
   content: url("/assets/icons/arrow.svg");
   position: absolute;
   top: 18%;
