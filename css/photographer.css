@@ -68,7 +68,7 @@ label[for=sort-by] {
   cursor: pointer;
 }
 .sort-by-wrapper #sort-by::after {
-  content: url("/assets/icons/arrow.svg");
+  content: url("../assets/icons/arrow.svg");
   position: absolute;
   top: 50%;
   right: 20px;
@@ -102,7 +102,7 @@ label[for=sort-by] {
   border-top: none;
 }
 .sort-by-wrapper .dropdown-options #popularity-select::after {
-  content: url("/assets/icons/arrow.svg");
+  content: url("../assets/icons/arrow.svg");
   position: absolute;
   top: 18%;
   right: 20px;
