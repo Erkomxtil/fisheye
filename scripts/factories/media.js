@@ -73,7 +73,7 @@ function displayMedia(datas, mediaWrapper) {
 
 		if(info.image){
 			article.classList.add("image-media")
-			imgVideo = `<img data-navigation="true" src="assets/images/${info.image}" alt="${info.title}" aria-label="${info.title}">`
+			imgVideo = `<img data-navigation="true" src="assets/images/${info.image}" alt="${info.title}" aria-label="${info.title}" loading="lazy">`
 		} else {
 			article.classList.add("video")
 			imgVideo = `
