@@ -173,7 +173,7 @@ article.video::before {
   position: absolute;
   top: 50%;
   left: 50%;
-  content: url("/assets/images/play.png");
+  content: url("../assets/images/play.png");
   z-index: 50;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -227,6 +227,7 @@ article.video::before {
 #lightbox nav img.close-lightbox {
   height: unset;
   width: unset;
+  cursor: pointer;
 }
 #lightbox nav img:first-child {
   transform: rotate(180deg);
