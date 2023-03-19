@@ -69,6 +69,7 @@ function displayMedia(datas, mediaWrapper) {
 		article.setAttribute("tabindex", 0)
 		article.dataset.mediaId = info.id
 	
+		const posterVideo = info.video?.replace("mp4", "jpg")
 
 		if(info.image){
 			article.classList.add("image-media")
@@ -76,7 +77,7 @@ function displayMedia(datas, mediaWrapper) {
 		} else {
 			article.classList.add("video")
 			imgVideo = `
-			<video data-infoText="${info.title}" aria-label="${info.title}">
+			<video data-infoText="${info.title}" aria-label="${info.title}" poster="assets/images/${posterVideo}">
         <source src="assets/images/${info.video}" type="video/mp4">
       </video>
 			`
@@ -89,6 +90,12 @@ function displayMedia(datas, mediaWrapper) {
 		`
 		mediaWrapper.appendChild(article)
 	})
+}
+
+function transformInfoTitleMp4ToJpg(posterVideoLink) {
+
+	posterVideoLink?.replace(".mp4", ".jpg")
+	return posterVideoLink
 }
 
 /**

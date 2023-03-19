@@ -222,6 +222,7 @@ function displayMediaLightbox(lightboxDatas) {
 		lightBox.style.display = "flex"
 		textImgP.textContent = videoText
 		video.setAttribute("src", lightboxDatas.srcVideo)
+		video.setAttribute("poster", lightboxDatas.srcVideo.replace("mp4", "jpg"))
 		lightBoxImg.style.display = "none"
 		video.style.display = "block"
 		video.dataset.visible = "true"
