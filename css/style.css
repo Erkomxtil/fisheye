@@ -153,7 +153,7 @@ label[for=sort-by] {
   font-weight: 400;
 }
 
-article:hover {
+article img:hover {
   cursor: pointer;
 }
 article video {
@@ -163,6 +163,9 @@ article video {
   height: 350px;
   position: relative;
   border-radius: 5px;
+}
+article video:hover {
+  cursor: pointer;
 }
 
 article.video {

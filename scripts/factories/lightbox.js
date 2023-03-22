@@ -3,9 +3,16 @@
  * @param {*} datas 
  */
 function lightBoxOpen(datas) {
-	const articles = datas.querySelectorAll("article")
+	const articlesImg = datas.querySelectorAll("article img")
+	const articlesVideo = datas.querySelectorAll("article video")
 
-	articles.forEach(element => {
+	articlesImg.forEach(element => {
+		element.addEventListener("click", (e) => {
+			getDataFromPhotographerPage(e)
+		})
+	})
+
+	articlesVideo.forEach(element => {
 		element.addEventListener("click", (e) => {
 			getDataFromPhotographerPage(e)
 		})

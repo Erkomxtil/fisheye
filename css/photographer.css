@@ -137,13 +137,20 @@ label[for=sort-by] {
   justify-content: space-between;
   color: #901C1C;
 }
+.media-wrapper .info-media .add-likes-wrapper.liked {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 .media-wrapper .info-media h2 {
   display: inline-flex;
   font-size: 1.5em;
   font-weight: 400;
 }
+.media-wrapper .info-media .add-likes-wrapper:hover {
+  cursor: pointer;
+}
 
-article:hover {
+article img:hover {
   cursor: pointer;
 }
 article video {
@@ -153,6 +160,9 @@ article video {
   height: 350px;
   position: relative;
   border-radius: 5px;
+}
+article video:hover {
+  cursor: pointer;
 }
 
 article.video {

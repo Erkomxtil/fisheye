@@ -1,19 +1,20 @@
 /**
  * On affiche les médias des photographes photo et vidéos
  * @param {*} idPhotographer On récupère l'id pour avoir les bonnes données
- */
+*/
 async function displayMediaPhotographer(idPhotographer){
 	const mediasDatas = await getPhotographers("media")
 	const mediasInfos = mediasDatas.filter(media => media.photographerId === idPhotographer)
-
+	
 	const photographerInfo = await getPhotographers("photographer")
 	const infos = photographerInfo.filter( info => info.id === idPhotographer)
 	
 	const info = infos[0]
-
+	
 	const mediaWrapper = document.querySelector(".media-wrapper")
 	const likes = mediasInfos.map(like => like.likes)
-	let totalLikes = 0 
+	
+	let totalLikes = 0
 
 	if (likes.length > 0) {
 		totalLikes = likes.reduce(
@@ -50,7 +51,7 @@ async function likePrice(likes, info) {
 	const price = await info.price !== undefined ? info.price: ""
 
 	likePriceInfo.innerHTML = `
-		<div className="like">${likes}❤</div><div className="price">${price}€/jour</div>
+		<div class="like"><span id="bannerLikes">${likes}</span>❤</div><div class="price">${price}€/jour</div>
 	`
 	likePrice.appendChild(likePriceInfo)
 }
@@ -85,15 +86,42 @@ function displayMedia(datas, mediaWrapper) {
 		article.innerHTML = `
 			${imgVideo}
       <div class="info-media">
-			  <h2 lang="en">${info.title}</h2><span>${info.likes} ❤</span>
+			  <h2 lang="en">${info.title}</h2>
+				<div class="add-likes-wrapper"><span class="add-likes" data-addLike="false">${info.likes}</span>❤</div>
       </div>
 		`
 		mediaWrapper.appendChild(article)
+		addLikes(article)
 	})
 }
 
-function transformInfoTitleMp4ToJpg(posterVideoLink) {
+/**
+ * Ajout des likes sur chaque média et sur la bannière de like
+ * @param {*} article On récupère les articles pour additionner les likes
+ */
+function addLikes(article){
+	const btnLikes = document.querySelectorAll(".add-likes-wrapper")
+	
+	btnLikes.forEach( (btn) => {
+		btn.addEventListener("click", () => {
+			const like = btn.querySelector(".add-likes")
+			const bannerLikes = document.getElementById("bannerLikes")
 
+			if (like.getAttribute("data-addLike") === "false"){
+				like.setAttribute("data-addLike", "true")
+				const liked = Number(like.innerText) + 1
+				const newLikedBanner = Number(bannerLikes.innerText) + 1
+				like.innerText = liked
+				bannerLikes.innerText = newLikedBanner
+				btn.classList.add("liked")				
+			} 
+		})
+	})
+}
+
+
+
+function transformInfoTitleMp4ToJpg(posterVideoLink) {
 	posterVideoLink?.replace(".mp4", ".jpg")
 	return posterVideoLink
 }
@@ -263,6 +291,7 @@ function initMedia() {
 	selectOpened()
 	selectClosedOnClick()
 	keyboardNavigationSelect()
+	addLikes()
 }
 
 initMedia()
