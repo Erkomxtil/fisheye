@@ -189,7 +189,7 @@ function keyboardNavigationSelect() {
 			})
 		} 
 
-		if (keyCode === "Enter" && focusElement.role === "option") {
+		if (keyCode === "Enter" && focusElement.role === "listitem") {
 			let value = focusElement.dataset.value
 
 			switch (value) {
@@ -205,7 +205,7 @@ function keyboardNavigationSelect() {
 			default:
 				break
 			}
-			
+
 			focusElement.setAttribute("aria-selected", "true")
 			optionList.style.display = "none"
 			btnSelect.style.display = "block"
